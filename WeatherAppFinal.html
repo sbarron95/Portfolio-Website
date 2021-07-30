@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="src/styles.css" />
+     />
+    <title>Weather App</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Page coded by Stephanie Barron</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="Experience.html">Resume</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="https://github.com/sbarron95/Portfolio-repo">GitHub
+            repository</a>
+        </li>
+
+        <div class="dropdown">
+
+          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Portfolios
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="experience.html#Projects">Project Management</a></li>
+            <li><a class="dropdown-item" href="experience.html#Coding"> Coding</a></li>
+            <li><a class="dropdown-item" href="experience.html#Writing"> Writing</a></li>
+          </ul>
+        </div>
+        <li class="nav-item">
+          <a class="nav-link" href="mailto:stephbarron95@gmail.com" class="primary-link">Contact</a>
+
+        </li>
+    </div>
+
+
+</nav>
+    <div class="container">
+        <div class="weather-app-wrapper">
+            <div class="weather-app">
+                <form id="search-form" class="mb-3">
+                    <div class="row">
+                        <div class="col-9">
+                            <input type="search" placeholder="Type a city.." class="form-control" id="city-input"
+                                autocomplete="off" />
+                        </div>
+                        <div class="col-3">
+                            <input type="submit" value="Search" class="btn btn-primary w-100" />
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <br>
+                <div class="overview">
+    
+                    <h1 id="city"></h1>
+                    <div class="col-3">
+                    <button class="btn btn-success w-100" id="current-location-button">
+                        Current Location 
+                    </button>
+                    <br>
+                    <br>
+                    <ul>
+                        <li>Last updated: <span id="date"></span></li>
+                        <li id="description"></li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="clearfix weather-temperature">
+                            <img src="#" alt="Clear" id="icon" class="float-left" />
+                            <div class="float-left">
+                                <strong id="temperature"></strong><span class="units"> °C</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Humidity: <span id="humidity"></span>%</li>
+                            <li>Wind: <span id="wind"></span> m/h</li>
+              
+                        </ul>
+                    </div>
+                </div>
+                <div class="weather-forecast" id="forecast"></div>
+            </div>
+            <small>
+                
+                Coded by Stephanie Barron on Visual Studio using HTML, CSS and JavaScript
+            </small>
+        </div>
+    </div>
+    <script>function formatDate(timestamp) {
+            let date = new Date(timestamp);
+            let hours = date.getHours();
+            if (hours < 10) {
+                hours = `0${hours}`;
+            }
+            let minutes = date.getMinutes();
+            if (minutes < 10) {
+                minutes = `0${minutes}`;
+            }
+
+            let days = [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+            ];
+            let day = days[date.getDay()];
+            return `${day} ${hours}:${minutes}`;
+        }
+
+        function formatDay(timestamp) {
+            let date = new Date(timestamp * 1000);
+            let day = date.getDay();
+            let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+            return days[day];
+        }
+
+        function displayForecast(response) {
+            let forecast = response.data.daily;
+
+            let forecastElement = document.querySelector("#forecast");
+
+            let forecastHTML = `<div class="row">`;
+            forecast.forEach(function (forecastDay, index) {
+                if (index < 6) {
+                    forecastHTML =
+                        forecastHTML +
+                        `
+      <div class="col-2">
+        <div class="weather-forecast-date">${formatDay(forecastDay.dt)}</div>
+        <img
+          src="http://openweathermap.org/img/wn/${forecastDay.weather[0].icon
+                        }@2x.png"
+          alt=""
+          width="42"
+        />
+        <div class="weather-forecast-temperatures">
+          <span class="weather-forecast-temperature-max"> ${Math.round(
+                            forecastDay.temp.max
+                        )}° </span>
+          <span class="weather-forecast-temperature-min"> ${Math.round(
+                            forecastDay.temp.min
+                        )}° </span>
+        </div>
+      </div>
+  `;
+                }
+            });
+
+            forecastHTML = forecastHTML + `</div>`;
+            forecastElement.innerHTML = forecastHTML;
+        }
+
+        function getForecast(coordinates) {
+            let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+            let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+            axios.get(apiUrl).then(displayForecast);
+        }
+
+        function displayTemperature(response) {
+            let temperatureElement = document.querySelector("#temperature");
+            let cityElement = document.querySelector("#city");
+            let descriptionElement = document.querySelector("#description");
+            let humidityElement = document.querySelector("#humidity");
+            let windElement = document.querySelector("#wind");
+            let dateElement = document.querySelector("#date");
+            let iconElement = document.querySelector("#icon");
+
+            celsiusTemperature = response.data.main.temp;
+
+            temperatureElement.innerHTML = Math.round(celsiusTemperature);
+            cityElement.innerHTML = response.data.name;
+            descriptionElement.innerHTML = response.data.weather[0].description;
+            humidityElement.innerHTML = response.data.main.humidity;
+            windElement.innerHTML = Math.round(response.data.wind.speed);
+            dateElement.innerHTML = formatDate(response.data.dt * 1000);
+            iconElement.setAttribute(
+                "src",
+                `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+            );
+            iconElement.setAttribute("alt", response.data.weather[0].description);
+
+            getForecast(response.data.coord);
+        }
+
+        function search(city) {
+            let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+            let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+            axios.get(apiUrl).then(displayTemperature);
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            let cityInputElement = document.querySelector("#city-input");
+            search(cityInputElement.value);
+        }
+        function convertToFahrenheit(event) {
+            event.preventDefault();
+            let temperatureElement = document.querySelector("#temperature");
+            temperatureElement.innerHTML = 66;
+          }
+
+          function convertToCelsius(event) {
+            event.preventDefault();
+            let temperatureElement = document.querySelector("#temperature");
+            temperatureElement.innerHTML = 19;
+          }
+
+        let form = document.querySelector("#search-form");
+        form.addEventListener("submit", handleSubmit);
+
+        search("New York");
+        let currentLocationButton = document.querySelector("#current-location-button");
+          currentLocationButton.addEventListener("click", getCurrentLocation);
+
+        navigator.geolocation.getCurrentPosition(success, error);
+
+          function success(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+
+            location.innerHTML = 'Latitude is ' + latitude + '° Longitude is ' + longitude + '°';
+
+            $.getJSON(url + apiKey + "/" + latitude + "," + longitude + "?callback=?", function (data) {
+              $('#temp').html(data.currently.temperature + '° F');
+              $('#minutely').html(data.minutely.summary);
+            });
+            
+          }
+          
+
+        
+        </script>
+        <style>
+            body {
+  font-family: arial, sans-serif;
+}
+
+h1 {
+  color: #878787;
+  font-size: 24px;
+  font-weight: 100;
+  line-height: 28px;
+  margin-bottom: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  color: rgb(135, 135, 135);
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 19px;
+}
+
+li:first-letter {
+  text-transform: capitalize;
+}
+
+.weather-app-wrapper {
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.weather-app {
+  padding: 20px;
+  border: 1px solid #dadde1;
+  border-radius: 5px;
+}
+
+.overview {
+  margin-bottom: 20px;
+}
+
+.weather-temperature img {
+  margin-right: 5px;
+  height: 64px;
+  width: 64px;
+}
+
+.weather-temperature strong {
+  color: rgb(33, 33, 33);
+  font-size: 64px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.weather-temperature .units {
+  position: relative;
+  font-size: 16px;
+  top: -34px;
+}
+
+.weather-temperature .active {
+  color: rgb(33, 33, 33);
+  cursor: default;
+}
+
+.weather-temperature .active:hover {
+  text-decoration: none;
+}
+
+.weather-forecast {
+  margin-top: 20px;
+  text-align: center;
+  color: #000;
+}
+
+.weather-forecast-date {
+  font-size: 16px;
+  opacity: 0.5;
+}
+
+.weather-forecast-temperature-min {
+  opacity: 0.5;
+}
+
+.weather-forecast-temperatures {
+  font-size: 13px;
+}
+</style>
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+:root {
+  --primary-color: #6c63ff;
+  --secondary-color: #f5f2fe;
+  --box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+.first-color {
+  background: #a3f7bf;
+}
+
+.second-color {
+  background: #29a19c;
+}
+
+.third-color {
+  background: #4b6289;
+}
+
+.fourth-color {
+  background: #60316e;
+}
+
+body {
+  margin-top: 100px;
+  margin-right: 95px;
+  margin-left: 50px;
+
+  background-color: #aae8ee;
+}
+
+h1 {
+  color: #6c63ff;
+  font-family: "STIX Two Math", serif;
+  font-size: 70px;
+}
+h2 {
+  margin-left: 50px;
+  margin-right: 50px;
+  font-family: "STIX Two Math", serif;
+  color: #6c63ff;
+  font-size: 40px;
+
+  font-size: 40px;
+}
+h3 {
+  margin: 0;
+  font-family: "STIX Two Math", serif;
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.5;
+  font-family: "Uchen", serif;
+  text-align: center;
+}
+
+.navigation-links {
+  display: flex;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+.navigation-links a {
+  margin: 20px;
+}
+
+.primary-link {
+  border-radius: 4px;
+  padding: 20px 15px;
+  text-decoration: none;
+  text-transform: capitalize;
+  background: #6c63ff;
+  box-shadow: var(--box-shadow);
+  color: white;
+  font-family: "STIX Two Math", serif;
+  font-size: 30px;
+}
+
+.secondary-link {
+  border-radius: 4px;
+  padding: 20px 15px;
+  text-decoration: none;
+  text-transform: capitalize;
+  background: #6c63ff;
+  box-shadow: var(--box-shadow);
+  color: white;
+  font-family: "STIX Two Math", serif;
+  text-align: center;
+  font-size: 20px;
+}
+
+.homepage-link {
+  color: var(--primary-color);
+  text-align: center;
+  display: block;
+}
+
+.about-paragraphs {
+  margin: 30px 0;
+}
+
+.about-paragraphs p {
+  margin: 10px;
+}
+
+.email-link {
+  display: flex;
+  justify-content: center;
+  color: var(--primary-color);
+  font-size: 28px;
+  text-decoration: none;
+}
+
+.email-link:hover {
+  text-decoration: underline;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.homepagebuttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.img {
+  display: flex;
+  margin: 100 auto;
+  border-radius: 5px;
+  display: table-row;
+  margin: 100 auto;
+  
+}
+
+.experiencebutton {
+  display: flex;
+  flex-direction: column;
+}
+
+.experiencepagebuttons {
+  display: flex;
+  flex-direction: row;
+}
+.dropdown {
+  color: #6c63ff;
+}
